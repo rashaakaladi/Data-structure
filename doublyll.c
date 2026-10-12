@@ -1,0 +1,112 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+int data;
+struct node*left,*right;
+};
+void main()
+{
+struct node*list=(struct node*)0;
+struct node*insert(struct node*,int);
+struct node*delete(struct node*,int);
+struct node*search(struct node*,int);
+void display(struct node*);
+struct node*start=(struct node*)0;
+int item,opt;
+while(1)
+{
+printf("\n1.INSERT\n2.DELETE\n3.SEARCH\n4.DISPLAY\n5.EXIT\n");
+printf("Enter your option:");
+scanf("%d",&opt);
+switch(opt)
+{
+case 01:
+printf("Item to insert:");
+scanf("%d",&item);
+start=insert(start,item);
+break;
+
+case 02:
+printf("Item to delete:");
+scanf("%d",&item);
+start=delete(start,item);
+break;
+
+case 03:
+printf("Item to search:");
+scanf("%d",&item);
+if (search(start,item)==(struct node*)0)
+printf("Not found");
+else
+printf("Found");
+break;
+ 
+case 04:
+display(start);
+break;
+
+case 05:
+exit(0);
+}
+}
+}
+struct node*insert(struct node*s,int data)
+{
+struct node*t;
+t=(struct node*)malloc(sizeof(struct node));
+t->data=data;
+t->left=(struct node*)0;
+t->right=s;
+if(s!=0)
+s->left=t;
+return t;
+}
+void display(struct node*s)
+{
+if (s==0)
+{
+printf("\n List is empty\n");
+return;
+}
+printf("\n List elements are:\n");
+while(s!=0)
+{
+printf("%d\t",s->data);
+s=s->right;
+}
+printf("\n");
+return;
+}
+struct node*search(struct node*s,int data)
+{
+while(s!=0 && data!=s->data)
+s=s->right;
+return s;
+}
+struct node*delete(struct node*s,int data)
+{
+struct node*t;
+t=search(s,data);
+if(t==0)
+printf("Data not found\n");
+else if(t->left==0)
+{
+s=s->right;
+if(t->right!=0)
+s->left=0;
+}
+else
+{
+t->left->right=t->right;
+if(t->right!=0)
+t->right->left=t->left;
+}
+free(t);
+return s;
+}
+
+
+
+
+
